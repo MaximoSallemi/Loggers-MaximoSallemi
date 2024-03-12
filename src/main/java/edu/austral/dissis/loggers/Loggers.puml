@@ -1,0 +1,49 @@
+@startuml Logger
+interface Logger {
+    + log(message: String): void
+}
+class ConsoleLogger implements Logger {
+    + log(message: String): void
+}
+class SilentLogger implements Logger {
+    +log(message: String): void
+}
+class FileLogger implements Logger {
+    +log(message: String): void
+    -changeFile(message: String, filePath: String)
+    -filePath: String
+}
+class HTTPLogger implements Logger {
+    +log(message: String): void
+    -changeServer(message: String, Server: String)
+    -Server: String
+}
+class MultiLogger implements Logger {
+    -list: List<logger>
+    +log(message: String): void
+    +add(l: Logger): void
+}
+class SeverityFilter implements Logger {
+    +log(message: String): void
+    +changeLogger(l: logger): Logger
+    +filterLog(message: String): String
+}
+
+class MapperLogger implements Logger{
+    +log(message: String): void
+    map(message: String): String
+    -Logger: Logger
+}
+
+class ContextLogger implements Logger {
+    +log(message: String): void
+    -addContextLogger(message: String): String
+    -Logger: Logger
+}
+
+
+MultiLogger --> Logger
+MapperLogger o-- Logger
+ContextLogger o-- Logger
+@enduml
+

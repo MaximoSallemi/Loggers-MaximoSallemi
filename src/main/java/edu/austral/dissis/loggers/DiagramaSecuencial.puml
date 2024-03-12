@@ -1,0 +1,23 @@
+@startuml
+autonumber
+
+actor User
+entity SeverityFilter
+entity ContextLogger
+entity MultiLogger
+entity ConsoleLogger
+entity FileLogger
+
+User -> SeverityFilter: log(event: String)
+SeverityFilter <- SeverityFilter: filter(event: String)
+alt low severity
+ContextLogger <- SeverityFilter: log(event: String)
+ContextLogger -> ContextLogger: addContext(event: String)
+MultiLogger <- ContextLogger: log(event: String)
+ConsoleLogger <- MultiLogger: log(event: String)
+FileLogger <- MultiLogger: log(event: String)
+Console <- ConsoleLogger: log(event: String)
+File <- FileLogger: log(event: String)
+end
+
+@enduml
